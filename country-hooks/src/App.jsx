@@ -17,21 +17,15 @@ const useField = (type) => {
 }
 
 const useCountry = (name) => {
-  const [result, setResult] = useState(null)
   const [data, setData] = useState(null)
   const [found, setFound] = useState(false)
 
   useEffect(() => {
     axios.get(`https://studies.cs.helsinki.fi/restcountries/api/name/${name}`).then((response) => {
-      console.log('response',response.data)
       setData(response.data);
       setFound(true)
   }).catch(error => console.log(error))
 }, [name])
-  
-  if (data) {
-    console.log(data.name)
-  }
   
   return {
     found,
