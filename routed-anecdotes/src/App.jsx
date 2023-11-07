@@ -61,7 +61,6 @@ const CreateNew = (props) => {
   const content = useField('content')
   const author = useField('author')
   const info = useField('info')
-  const reset = useField('reset')
   const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -75,9 +74,9 @@ const CreateNew = (props) => {
   }
 
   const handleReset = () => {
-    content.reset()
-    author.reset()
-    info.reset()
+    content.onClick()
+    author.onClick()
+    info.onClick()
   }
 
   return (
