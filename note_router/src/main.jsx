@@ -167,7 +167,6 @@ const App = () => {
           <Route path="/" element={<Home />} />
         </Routes>
       <Footer>
-        <br />
         <em>Note app, Department of Computer Science 2023</em>
       </Footer>
     </Page>
