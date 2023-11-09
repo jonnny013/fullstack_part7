@@ -93,7 +93,8 @@ const Blog = ({ user, blog }) => {
   )
 }
 
-const Blogs = ({ user }) => {
+const Blogs = () => {
+  const user = useSelector(state => state.user)
   const blogs = useSelector(state => state.blogs)
   const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
   return (

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, useRef } from 'react'
+import {  useEffect, useRef } from 'react'
 import blogService from './services/blogs'
 import CreateBlog from './components/CreateBlog'
 import Notification from './components/Notification'
@@ -7,22 +7,21 @@ import Togglable from './components/Togglable'
 import './app.css'
 import Header from './components/Header'
 import Login from './components/Login'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setBlogs } from './reducers/blogReducer'
 import Blogs from './components/Blog'
+import { setUser } from './reducers/userReducer'
 
 const App = () => {
-  const [user, setUser] = useState(null)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const createBlogRef = useRef()
   const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      dispatch(setUser(user))
       blogService.setToken(user.token)
     }
   }, [])
@@ -35,26 +34,19 @@ const App = () => {
     return (
       <div className='login-div'>
         <Notification />
-        <Login
-          username={username}
-          password={password}
-          setUser={setUser}
-          user={user}
-          setUsername={setUsername}
-          setPassword={setPassword}
-        />
+        <Login />
       </div>
     )
   }
 
   return (
     <div>
-      <Header user={user} setUser={setUser} />
+      <Header />
       <Notification />
       <Togglable buttonLabel='Create New Blog' ref={createBlogRef}>
         <CreateBlog createBlogRef={createBlogRef} />
       </Togglable>
-      <Blogs user={user} />
+      <Blogs />
     </div>
   )
 }

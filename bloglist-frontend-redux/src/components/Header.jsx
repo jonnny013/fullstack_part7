@@ -1,14 +1,11 @@
 import React from 'react'
 import logoPic from '../mainLogo.png'
-import notificationReducer, {
-  reset,
-  notification,
-  messages,
-} from '../reducers/notificationReducer'
-import { useDispatch } from 'react-redux'
-
-const Header = props => {
+import notificationReducer, { messages } from '../reducers/notificationReducer'
+import { useDispatch, useSelector } from 'react-redux'
+import { setUser } from '../reducers/userReducer'
+const Header = () => {
   const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
   const styles = {
     backgroundColor: 'orange',
     display: 'flex',
@@ -20,16 +17,16 @@ const Header = props => {
 
   const handleLogout = event => {
     event.preventDefault()
-    props.setUser(null)
+    dispatch(setUser(null))
     window.localStorage.removeItem('loggedBloglistUser')
-    dispatch(messages('notification','User logged out'))
+    dispatch(messages('notification', 'User logged out'))
   }
 
   return (
     <div style={styles} className='headerDiv'>
       <img className='logo' src={logoPic} alt='logo' />
       <h1 className='blogTitle'>Blogs</h1>
-      <p className='userInfo'>{props.user.name} is logged in.</p>
+      <p className='userInfo'>{user.name} is logged in.</p>
       <button id='logout-button' onClick={handleLogout}>
         Logout
       </button>

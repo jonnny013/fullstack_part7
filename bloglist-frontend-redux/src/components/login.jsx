@@ -2,28 +2,22 @@ import { useDispatch } from 'react-redux'
 import blogService from '../services/blogs'
 import loginService from '../services/login'
 import { messages } from '../reducers/notificationReducer'
+import { setUser } from '../reducers/userReducer'
 
-const Login = ({
-  username,
-  password,
-  setUser,
-  user,
-  setUsername,
-  setPassword,
-}) => {
+const Login = () => {
   const dispatch = useDispatch()
   const handleLogin = async event => {
     event.preventDefault()
     try {
       const user = await loginService.login({
-        username,
-        password,
+        username: event.target.username.value,
+        password: event.target.password.value,
       })
       window.localStorage.setItem('loggedBloglistUser', JSON.stringify(user))
       blogService.setToken(user.token)
-      setUser(user)
-      setUsername('')
-      setPassword('')
+      dispatch(setUser(user))
+      event.target.username.value = ''
+      event.target.password.value = ''
       dispatch(messages('notification', `Welcome ${user.name}`))
     } catch (exception) {
       dispatch(messages('error', 'Wrong username or password'))
@@ -38,9 +32,7 @@ const Login = ({
         <input
           type='text'
           id='username'
-          value={username}
           name='Username'
-          onChange={({ target }) => setUsername(target.value)}
         />
       </div>
       <div>
@@ -48,9 +40,7 @@ const Login = ({
         <input
           type='password'
           id='password'
-          value={password}
           name='Password'
-          onChange={({ target }) => setPassword(target.value)}
         />
       </div>
       <button type='submit' id='login-button'>
