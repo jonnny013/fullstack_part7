@@ -1,9 +1,16 @@
 import { useDispatch } from 'react-redux'
-import blogService from './services/blogs'
-import loginService from './services/login'
+import blogService from '../services/blogs'
+import loginService from '../services/login'
 import { notification, error, reset } from '../reducers/notificationReducer'
 
-const Login = ({username, password, setUser, user, setUsername, setPassword}) => {
+const Login = ({
+  username,
+  password,
+  setUser,
+  user,
+  setUsername,
+  setPassword,
+}) => {
   const dispatch = useDispatch()
   const handleLogin = async event => {
     event.preventDefault()

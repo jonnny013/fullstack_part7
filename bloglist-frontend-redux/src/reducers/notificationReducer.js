@@ -8,10 +8,12 @@ const notificationSlice = createSlice({
   },
   reducers: {
     notification(state, action) {
+      console.log(action.payload)
       state.message = action.payload
       state.style = 'style1'
     },
     error(state, action) {
+      console.log(action.payload)
       state.message = action.payload
       state.style = 'style2'
     },

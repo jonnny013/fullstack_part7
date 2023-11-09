@@ -1,13 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
-import loginService from './services/login'
 import CreateBlog from './components/CreateBlog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import './app.css'
 import Header from './components/Header'
-import Login from './services/login'
+import Login from './components/Login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -88,10 +87,15 @@ const App = () => {
   if (!user) {
     return (
       <div className='login-div'>
-        {errorMessage && (
-          <Notification message={errorMessage} styling={styling} />
-        )}
-        <Login username={username} password={password} setUser={setUser} user={user} setUsername={setUsername} setPassword={setPassword} />
+        <Notification />
+        <Login
+          username={username}
+          password={password}
+          setUser={setUser}
+          user={user}
+          setUsername={setUsername}
+          setPassword={setPassword}
+        />
       </div>
     )
   }
@@ -99,9 +103,7 @@ const App = () => {
   return (
     <div>
       <Header user={user} setUser={setUser} />
-      {errorMessage && (
-        <Notification message={errorMessage} styling={styling} />
-      )}
+      <Notification />
       <Togglable buttonLabel='Create New Blog' ref={createBlogRef}>
         <CreateBlog handleCreateBlog={handleCreateBlog} />
       </Togglable>
