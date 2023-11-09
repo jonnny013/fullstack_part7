@@ -1,7 +1,33 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
+import blogService from '../services/blogs'
+import { useDispatch } from 'react-redux'
+import { messages } from '../reducers/notificationReducer'
 
-const Blog = ({ blog, handleLike, handleDelete, user }) => {
+const Blog = ({ blog, user, setBlogs }) => {
+
+  const dispatch = useDispatch()
+  const handleLike = async blog => {
+    event.preventDefault()
+    await blogService.addLike(blog)
+    blogService.getAll().then(blogs => setBlogs(blogs))
+    dispatch(messages('notification','Blog liked!'))
+  }
+  const handleDelete = async blog => {
+    event.preventDefault()
+    if (window.confirm(`Would you like to delete the blog: ${blog.title}?`)) {
+      try {
+        window.confirm
+        await blogService.deleteBlog(blog)
+        blogService.getAll().then(blogs => setBlogs(blogs))
+        dispatch(messages('notifications','Blog deleted'))
+      } catch (exception) {
+        dispatch(messages(
+          'error', `Unable to delete: ${exception.response.data.error}`
+        ))
+      }
+    }
+  }
   const blogStyle = {
     paddingTop: 5,
     paddingLeft: 2,
@@ -46,8 +72,6 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  handleLike: PropTypes.func.isRequired,
-  handleDelete: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired
 }
 
