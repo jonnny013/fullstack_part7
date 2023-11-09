@@ -1,26 +1,20 @@
 import { React, useState, useRef } from 'react'
-import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import blogService from '../services/blogs'
 import { messages } from '../reducers/notificationReducer'
+import { createBlog } from '../reducers/blogReducer'
 
 const CreateBlog = ({ setBlogs, createBlogRef }) => {
   const dispatch = useDispatch()
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
 
   const makeBlog = event => {
     event.preventDefault()
     const blogObject = {
-      title: title,
-      author: author,
-      url: url,
+      title: event.target.title.value,
+      author: event.target.author.value,
+      url: event.target.url.value,
     }
-    handleCreateBlog(blogObject)
-    setAuthor('')
-    setTitle('')
-    setUrl('')
+    dispatch(createBlog(blogObject))
   }
   const stylesDiv = {
     display: 'flex',
@@ -66,30 +60,24 @@ const CreateBlog = ({ setBlogs, createBlogRef }) => {
         <input
           type='text'
           id='title-input'
-          value={title}
           name='title'
           placeholder='Choose a title'
-          onChange={({ target }) => setTitle(target.value)}
         />
 
         <p className='newBlogParagraph'>Author</p>
         <input
           type='text'
           id='author-input'
-          value={author}
           name='author'
           placeholder="Author's name"
-          onChange={({ target }) => setAuthor(target.value)}
         />
 
         <p className='newBlogParagraph'>Website</p>
         <input
           type='text'
           id='url-input'
-          value={url}
           name='url'
           placeholder='Add a Url to show the whole blog'
-          onChange={({ target }) => setUrl(target.value)}
         />
         <br />
         <button type='submit' id='create-button'>

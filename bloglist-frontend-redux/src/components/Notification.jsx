@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux'
 const Notification = () => {
   const message = useSelector(state => state.notifications.message)
   const styling = useSelector(state => state.notifications.style)
-  console.log('notif', message, 'style', styling)
   const style1 = {
     border: '2px solid green',
     backgroundColor: 'lightgray',
