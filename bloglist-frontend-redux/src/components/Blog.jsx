@@ -3,13 +3,14 @@ import PropTypes from 'prop-types'
 import blogService from '../services/blogs'
 import { useDispatch, useSelector } from 'react-redux'
 import { messages } from '../reducers/notificationReducer'
+import { setBlogs } from '../reducers/blogReducer'
 
-const Blog = ({ user, setBlogs, blog }) => {
+const Blog = ({ user, blog }) => {
   const dispatch = useDispatch()
   const handleLike = async blog => {
     event.preventDefault()
     await blogService.addLike(blog)
-    blogService.getAll().then(blogs => setBlogs(blogs))
+    blogService.getAll().then(blogs => dispatch(setBlogs(blogs)))
     dispatch(messages('notification', 'Blog liked!'))
   }
   const handleDelete = async blog => {
@@ -18,7 +19,7 @@ const Blog = ({ user, setBlogs, blog }) => {
       try {
         window.confirm
         await blogService.deleteBlog(blog)
-        blogService.getAll().then(blogs => setBlogs(blogs))
+        blogService.getAll().then(blogs => dispatch(setBlogs(blogs)))
         dispatch(messages('notifications', 'Blog deleted'))
       } catch (exception) {
         dispatch(

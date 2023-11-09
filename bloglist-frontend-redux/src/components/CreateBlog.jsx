@@ -4,17 +4,20 @@ import blogService from '../services/blogs'
 import { messages } from '../reducers/notificationReducer'
 import { createBlog } from '../reducers/blogReducer'
 
-const CreateBlog = ({ setBlogs, createBlogRef }) => {
+const CreateBlog = ({ createBlogRef }) => {
   const dispatch = useDispatch()
 
-  const makeBlog = event => {
+  const makeBlog =  (event) => {
     event.preventDefault()
     const blogObject = {
       title: event.target.title.value,
       author: event.target.author.value,
       url: event.target.url.value,
     }
-    dispatch(createBlog(blogObject))
+    event.target.title.value = ''
+    event.target.author.value = ''
+    event.target.url.value = ''
+    handleCreateBlog(blogObject)
   }
   const stylesDiv = {
     display: 'flex',
@@ -28,8 +31,8 @@ const CreateBlog = ({ setBlogs, createBlogRef }) => {
   }
   const handleCreateBlog = async blogObject => {
     try {
-      const response = await blogService.create(blogObject)
-      blogService.getAll().then(blogs => setBlogs(blogs))
+      const newBlog = await blogService.create(blogObject)
+      dispatch(createBlog(newBlog))
       createBlogRef.current.toggleVisibility()
       dispatch(
         messages(
@@ -38,7 +41,6 @@ const CreateBlog = ({ setBlogs, createBlogRef }) => {
         )
       )
     } catch (exception) {
-      console.log(exception)
       if (exception.data) {
         dispatch(
           messages(

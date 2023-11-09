@@ -6,11 +6,8 @@ const blogSlice = createSlice({
   reducers: {
     createBlog(state, action) {
       const content = action.payload
-      state.push({
-        title: content.title,
-        author: content.author,
-        url: content.url
-      })
+      console.log(action.payload)
+      state.push(content)
     },
     appendBlog(state,action) {
       state.push(action.payload)
