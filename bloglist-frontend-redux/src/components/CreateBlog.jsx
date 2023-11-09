@@ -67,7 +67,7 @@ const CreateBlog = ({ setBlogs, createBlogRef }) => {
           type='text'
           id='title-input'
           value={title}
-          name='Title'
+          name='title'
           placeholder='Choose a title'
           onChange={({ target }) => setTitle(target.value)}
         />
@@ -77,7 +77,7 @@ const CreateBlog = ({ setBlogs, createBlogRef }) => {
           type='text'
           id='author-input'
           value={author}
-          name='Author'
+          name='author'
           placeholder="Author's name"
           onChange={({ target }) => setAuthor(target.value)}
         />
@@ -87,8 +87,8 @@ const CreateBlog = ({ setBlogs, createBlogRef }) => {
           type='text'
           id='url-input'
           value={url}
-          name='Url'
-          placeholder='Add a Url to see the whole blog'
+          name='url'
+          placeholder='Add a Url to show the whole blog'
           onChange={({ target }) => setUrl(target.value)}
         />
         <br />
