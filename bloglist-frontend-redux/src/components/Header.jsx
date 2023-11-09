@@ -3,6 +3,7 @@ import logoPic from '../mainLogo.png'
 import notificationReducer, {
   reset,
   notification,
+  messages,
 } from '../reducers/notificationReducer'
 import { useDispatch } from 'react-redux'
 
@@ -21,7 +22,7 @@ const Header = props => {
     event.preventDefault()
     props.setUser(null)
     window.localStorage.removeItem('loggedBloglistUser')
-    dispatch(notification('User logged out'))
+    dispatch(messages('notification','User logged out'))
   }
 
   return (

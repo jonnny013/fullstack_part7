@@ -26,4 +26,11 @@ const notificationSlice = createSlice({
 
 export const { notification, error, reset } = notificationSlice.actions
 
+export const messages = (type, content) => {
+  return dispatch => {
+    type === 'error' ? dispatch(error(content)) : dispatch(notification(content))
+    setTimeout(() => {dispatch(reset())}, 5000)
+  }
+}
+
 export default notificationSlice.reducer

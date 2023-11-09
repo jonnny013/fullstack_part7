@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux'
 import blogService from '../services/blogs'
 import loginService from '../services/login'
-import { notification, error, reset } from '../reducers/notificationReducer'
+import { messages } from '../reducers/notificationReducer'
 
 const Login = ({
   username,
@@ -24,12 +24,9 @@ const Login = ({
       setUser(user)
       setUsername('')
       setPassword('')
-      dispatch(notification(`Welcome ${user.name}`, 'green'))
-      setTimeout(() => {
-        dispatch(reset)
-      }, 5000)
+      dispatch(messages('notification', `Welcome ${user.name}`))
     } catch (exception) {
-      dispatch(error('Wrong username or password'))
+      dispatch(messages('error', 'Wrong username or password'))
     }
   }
 

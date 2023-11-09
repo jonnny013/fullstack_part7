@@ -27,10 +27,22 @@ const Notification = () => {
     marginBottom: 10,
     textAlign: 'center'
   }
+  const style3 = {
+    border: 0,
+    backgroundColor: 'none'
+  }
 
-  const selection = styling === 'style1' ? style1 : style2
+  const selection = (styling) => {
+    if (styling === '') {
+      return  style3
+    } else if (styling === 'style1') {
+      return style1
+    } else if (styling === 'style2') {
+      return style2
+    }
+  }
   return (
-    <div style={selection} className='notificationMessage'>{message}</div>
+    <div style={selection(styling)} className='notificationMessage'>{message}</div>
   )
 }
 
