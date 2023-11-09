@@ -8,7 +8,7 @@
     "test": "NODE_ENV=test jest --verbose --runInBand",
     "dev": "NODE_ENV=development nodemon index.js",
     "start:test": "NODE_ENV=test node index.js",
-    "build:ui": "rm -rf dist && cd ../../part5/bloglist-frontend && npm run build && cp -r dist ../../part4/blogApp",
+    "build:ui": "rm -rf dist && cd ../bloglist-frontend && npm run build && cp -r dist ../blogApp",
     "deploy": "fly deploy",
     "deploy:full": "npm run build:ui && npm run deploy",
     "logs:prod": "fly logs"
