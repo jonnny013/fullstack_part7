@@ -61,13 +61,6 @@ const App = () => {
     }
   }
 
-  const handleLogout = event => {
-    event.preventDefault()
-    setUser(null)
-    window.localStorage.removeItem('loggedBloglistUser')
-    errormessagefunction('User logged out', 'green')
-  }
-
   const handleCreateBlog = async blogObject => {
     try {
       const response = await blogService.create(blogObject)
@@ -152,7 +145,7 @@ const App = () => {
 
   return (
     <div>
-      <Header handleLogout={handleLogout} user={user} />
+      <Header user={user} setUser={setUser} />
       {errorMessage && (
         <Notification message={errorMessage} styling={styling} />
       )}
