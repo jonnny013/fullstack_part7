@@ -1,14 +1,28 @@
 import { React, useState } from 'react'
-import PropTypes from 'prop-types'
 import blogService from '../services/blogs'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-const CreateBlog = ({ errormessagefunction, createBlogRef }) => {
+const CreateBlog = ({ errormessagefunction, createBlogRef, user }) => {
   const queryClient = useQueryClient()
   const newBlogMutation = useMutation({
     mutationFn: blogService.create,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['blogs'] })
+    onMutate: () => {
+      errormessagefunction('Loading...', 'green')
+    },
+    onSuccess: newBlog => {
+      const addUserToBlog = { ...newBlog, user: user }
+      const blogs = queryClient.getQueryData(['blogs'])
+      queryClient.setQueryData(['blogs'], blogs.concat(addUserToBlog))
+      errormessagefunction(
+        `New blog ${newBlog.title} by ${newBlog.author} added`,
+        'green'
+      )
+    },
+    onError: error => {
+      errormessagefunction(
+        `Post unsuccesful: ${error.response.data.error}`,
+        'red'
+      )
     },
   })
   const [title, setTitle] = useState('')
@@ -16,19 +30,9 @@ const CreateBlog = ({ errormessagefunction, createBlogRef }) => {
   const [url, setUrl] = useState('')
 
   const handleCreateBlog = async blogObject => {
-    try {
-      newBlogMutation.mutate({ blogObject })
-      createBlogRef.current.toggleVisibility()
-      errormessagefunction(
-        `New blog ${blogObject.title} by ${blogObject.author} added`,
-        'green'
-      )
-    } catch (exception) {
-      errormessagefunction(
-        `Post unsuccesful: ${exception.response.data.error}`,
-        'red'
-      )
-    }
+    newBlogMutation.mutate(blogObject )
+    createBlogRef.current.toggleVisibility()
+
   }
 
   const makeBlog = (event) => {

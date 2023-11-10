@@ -8,7 +8,6 @@ import './app.css'
 import Header from './components/Header'
 import Login from './components/Login'
 import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -31,10 +30,9 @@ const App = () => {
     queryKey: ['blogs'],
     queryFn: blogService.getAll
   })
-  console.log(JSON.parse(JSON.stringify(result)))
+
 
   const blogs = result.data
-
   const errormessagefunction = (message, style) => {
     setErrorMessage(message)
     if (style === 'green') {
@@ -69,12 +67,12 @@ const App = () => {
         <CreateBlog
           errormessagefunction={errormessagefunction}
           createBlogRef={createBlogRef}
+          user={user}
         />
       </Togglable>
       {result.isLoading ? <div>Loading blogs...</div> : <Blogs
         blogs={blogs}
         user={user}
-        setBlogs={setBlogs}
         errormessagefunction={errormessagefunction}
       />}
     </div>
