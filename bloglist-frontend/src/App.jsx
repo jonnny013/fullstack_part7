@@ -11,7 +11,6 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -29,7 +28,7 @@ const App = () => {
   }, [])
 
   const result = useQuery({
-    queryKey: ['anecdotes'],
+    queryKey: ['blogs'],
     queryFn: blogService.getAll
   })
   console.log(JSON.parse(JSON.stringify(result)))
@@ -68,7 +67,6 @@ const App = () => {
       )}
       <Togglable buttonLabel='Create New Blog' ref={createBlogRef}>
         <CreateBlog
-          setBlogs={setBlogs}
           errormessagefunction={errormessagefunction}
           createBlogRef={createBlogRef}
         />

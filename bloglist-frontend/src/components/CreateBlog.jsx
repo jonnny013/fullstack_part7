@@ -1,16 +1,23 @@
 import { React, useState } from 'react'
 import PropTypes from 'prop-types'
 import blogService from '../services/blogs'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 
-const CreateBlog = ({ setBlogs, errormessagefunction, createBlogRef }) => {
+const CreateBlog = ({ errormessagefunction, createBlogRef }) => {
+  const queryClient = useQueryClient()
+  const newBlogMutation = useMutation({
+    mutationFn: blogService.create,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['blogs'] })
+    },
+  })
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
   const handleCreateBlog = async blogObject => {
     try {
-      const response = await blogService.create(blogObject)
-      blogService.getAll().then(blogs => setBlogs(blogs))
+      newBlogMutation.mutate({ blogObject })
       createBlogRef.current.toggleVisibility()
       errormessagefunction(
         `New blog ${blogObject.title} by ${blogObject.author} added`,
