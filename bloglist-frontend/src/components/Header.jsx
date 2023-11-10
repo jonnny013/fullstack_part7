@@ -1,12 +1,17 @@
 import React from 'react'
 import logoPic from '../mainLogo.png'
+import { useNotificationDispatch } from '../reducers/NotificationContext'
 
 const Header = (props) => {
+  const dispatch = useNotificationDispatch()
   const handleLogout = event => {
     event.preventDefault()
     props.setUser(null)
     window.localStorage.removeItem('loggedBloglistUser')
-    props.errormessagefunction('User logged out', 'green')
+    dispatch({
+      type: 'message',
+      payload: 'User logged out',
+    })
   }
 
   const styles = {

@@ -2,17 +2,24 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 import blogService from '../services/blogs'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useNotificationDispatch } from '../reducers/NotificationContext'
 
-const Blog = ({ blog, user, errormessagefunction }) => {
+const Blog = ({ blog, user,  }) => {
   const queryClient = useQueryClient()
-
+  const dispatch = useNotificationDispatch()
   const updateBlogMutation = useMutation({
     mutationFn: blogService.addLike,
     onMutate: () => {
-      errormessagefunction('Loading...', 'green')
+      dispatch({
+        type: 'loading',
+        payload: 'Loading...',
+      })
     },
     onSuccess: updatedBlog => {
-      errormessagefunction('Blog liked!', 'green')
+      dispatch({
+        type: 'message',
+        payload: 'Blog liked!',
+      })
       queryClient.setQueryData(['blogs'], blogs => {
         const updatedBlogs = blogs.map(blog =>
           blog.id === updatedBlog.id ? { ...blog, likes: blog.likes + 1 } : blog
@@ -21,23 +28,32 @@ const Blog = ({ blog, user, errormessagefunction }) => {
       })
     },
     onError: (error) => {
-      errormessagefunction(`Failed to like the blog: ${error}`, 'red')
+      dispatch({
+        type: 'error',
+        payload: `Failed to like the blog: ${error}`,
+      })
     },
   })
   const deleteBlogMutation = useMutation({
     mutationFn: blogService.deleteBlog,
     onMutate: () => {
-      errormessagefunction('Loading...', 'green')
+      dispatch({
+        type: 'loading',
+        payload: 'Loading...',
+      })
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['blogs'] })
-      errormessagefunction('Blog deleted', 'green')
+      dispatch({
+        type: 'message',
+        payload: 'Blog deleted!',
+      })
     },
     onError: error => {
-      errormessagefunction(
-        `Unable to delete: ${error.response.data.error}`,
-        'red'
-      )
+      dispatch({
+        type: 'error',
+        payload: `Unable to delete: ${error.response.data.error}`,
+      })
     },
   })
 

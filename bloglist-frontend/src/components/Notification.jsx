@@ -1,7 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useNotificationDispatch, useNotificationValue } from '../reducers/NotificationContext'
 
-const Notification = ({ message, styling }) => {
+const Notification = () => {
+  const notification = useNotificationValue()
+  const dispatch = useNotificationDispatch()
   const style1 = {
     border: '2px solid green',
     backgroundColor: 'lightgray',
@@ -10,7 +13,8 @@ const Notification = ({ message, styling }) => {
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
-    textAlign: 'center'
+    textAlign: 'center',
+    height: 25,
   }
 
   const style2 = {
@@ -21,18 +25,57 @@ const Notification = ({ message, styling }) => {
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
-    textAlign: 'center'
+    textAlign: 'center',
+    height: 25,
   }
 
-  const selection = styling === 'style1' ? style1 : style2
+  const style3 = {
+    border: '2px solid blue',
+    backgroundColor: 'lightgray',
+    color: 'blue',
+    fontSize: 20,
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+    textAlign: 'center',
+    height: 25,
+  }
+  const style4 = {
+    color: 'blue',
+    fontSize: 20,
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+    textAlign: 'center',
+    height: 29,
+  }
+
+  if (notification.message !== '') {
+    setTimeout(() => {
+      dispatch({
+        type: 'reset'
+      })
+    }, 6000)
+  }
+
+  const selection = () => {
+    if (notification.style === 'loading') {
+      return style3
+    } else if (notification.style === 'message') {
+      return style1
+    } else if (notification.style === 'error') {
+      return style2
+    } else {
+      return style4
+    }
+  }
   return (
-    <div style={selection} className='notificationMessage'>{message}</div>
+    <div style={selection()} className='notificationMessage'>{notification.message}</div>
   )
 }
 
 Notification.propTypes = {
-  message: PropTypes.string.isRequired,
-  styling: PropTypes.string.isRequired
+
 }
 
 export default Notification

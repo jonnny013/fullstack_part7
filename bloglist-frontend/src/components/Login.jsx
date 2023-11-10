@@ -1,7 +1,9 @@
 import blogService from '../services/blogs'
 import loginService from '../services/login'
+import { useNotificationDispatch } from '../reducers/NotificationContext'
 
 const Login = ({ username, setUsername, password, setPassword, setUser, errormessagefunction }) => {
+  const dispatch = useNotificationDispatch()
   const handleLogin = async event => {
     event.preventDefault()
     try {
@@ -14,9 +16,15 @@ const Login = ({ username, setUsername, password, setPassword, setUser, errormes
       setUser(user)
       setUsername('')
       setPassword('')
-      errormessagefunction(`Welcome ${user.name}`, 'green')
+      dispatch({
+        type: 'message',
+        payload: `Welcome ${user.name}`,
+      })
     } catch (exception) {
-      errormessagefunction('Wrong username or password', 'red')
+      dispatch({
+        type: 'error',
+        payload: 'Wrong username or password',
+      })
     }
   }
 

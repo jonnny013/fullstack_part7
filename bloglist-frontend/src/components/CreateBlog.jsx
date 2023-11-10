@@ -1,28 +1,33 @@
 import { React, useState } from 'react'
 import blogService from '../services/blogs'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useNotificationDispatch } from '../reducers/NotificationContext'
 
 const CreateBlog = ({ errormessagefunction, createBlogRef, user }) => {
   const queryClient = useQueryClient()
+  const dispatch = useNotificationDispatch()
   const newBlogMutation = useMutation({
     mutationFn: blogService.create,
     onMutate: () => {
-      errormessagefunction('Loading...', 'green')
+      dispatch({
+        type: 'loading',
+        payload: 'Loading...',
+      })
     },
     onSuccess: newBlog => {
       const addUserToBlog = { ...newBlog, user: user }
       const blogs = queryClient.getQueryData(['blogs'])
       queryClient.setQueryData(['blogs'], blogs.concat(addUserToBlog))
-      errormessagefunction(
-        `New blog ${newBlog.title} by ${newBlog.author} added`,
-        'green'
-      )
+      dispatch({
+        type: 'message',
+        payload: `New blog ${newBlog.title} by ${newBlog.author} added`,
+      })
     },
     onError: error => {
-      errormessagefunction(
-        `Post unsuccesful: ${error.response.data.error}`,
-        'red'
-      )
+      dispatch({
+        type: 'error',
+        payload: `Post unsuccesful: ${error.response.data.error}`,
+      })
     },
   })
   const [title, setTitle] = useState('')
