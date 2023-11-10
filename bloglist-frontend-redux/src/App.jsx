@@ -29,7 +29,6 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs => dispatch(setBlogs(blogs)))
   }, [])
-
   if (!user) {
     return (
       <div className='login-div'>

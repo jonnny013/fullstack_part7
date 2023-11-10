@@ -1,6 +1,6 @@
 import React from 'react'
 import logoPic from '../mainLogo.png'
-import notificationReducer, { messages } from '../reducers/notificationReducer'
+import { messages } from '../reducers/notificationReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '../reducers/userReducer'
 const Header = () => {

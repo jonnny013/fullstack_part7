@@ -4,7 +4,7 @@ const baseUrl = '/api/blogs'
 let token = null
 
 const setToken = newToken => {
-  token =  `Bearer ${newToken}`
+  token = `Bearer ${newToken}`
 }
 
 const getAll = () => {
@@ -12,7 +12,7 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
-const create = async (newObject) => {
+const create = async newObject => {
   const config = {
     headers: { Authorization: token },
   }
@@ -20,11 +20,11 @@ const create = async (newObject) => {
   return response.data
 }
 
-const addLike = async (blog) => {
+const addLike = async blog => {
   const updatedObject = {
     title: blog.title,
     user: blog.user.id,
-    likes: blog.likes +1,
+    likes: blog.likes + 1,
     author: blog.author,
     url: blog.url,
   }
@@ -32,7 +32,7 @@ const addLike = async (blog) => {
   return response.data
 }
 
-const deleteBlog = async (blog) => {
+const deleteBlog = async blog => {
   const config = {
     headers: { Authorization: token },
   }
