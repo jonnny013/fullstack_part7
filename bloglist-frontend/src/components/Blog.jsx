@@ -1,7 +1,33 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
+import blogService from '../services/blogs'
 
-const Blog = ({ blog, handleLike, handleDelete, user }) => {
+const Blog = ({ blog,  user, setBlogs, errormessagefunction }) => {
+  const handleDelete = async blog => {
+    event.preventDefault()
+    if (window.confirm(`Would you like to delete the blog: ${blog.title}?`)) {
+      try {
+        window.confirm
+        await blogService.deleteBlog(blog)
+        blogService.getAll().then(blogs => setBlogs(blogs))
+        errormessagefunction('Blog deleted', 'green')
+      } catch (exception) {
+        errormessagefunction(
+          `Unable to delete: ${exception.response.data.error}`,
+          'red'
+        )
+      }
+    }
+  }
+  const handleLike = async blog => {
+    event.preventDefault()
+    await blogService.addLike(blog)
+    blogService.getAll().then(blogs => setBlogs(blogs))
+    errormessagefunction('Blog liked!', 'green')
+  }
+
+
+
   const blogStyle = {
     paddingTop: 5,
     paddingLeft: 2,
@@ -44,11 +70,29 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
     </div>
   )}
 
+
+export const Blogs = ({ blogs, user, setBlogs, errormessagefunction }) => {
+  return (
+    <>
+      {blogs
+        .sort((a, b) => b.likes - a.likes)
+        .map(blog => (
+          <Blog
+            key={blog.id}
+            blog={blog}
+            user={user}
+            setBlogs={setBlogs}
+            errormessagefunction={errormessagefunction}
+          />
+        ))}
+    </>
+  )
+}
+
+
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  handleLike: PropTypes.func.isRequired,
-  handleDelete: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired
 }
 
-export default Blog
+export default Blogs

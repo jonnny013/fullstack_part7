@@ -2,6 +2,13 @@ import React from 'react'
 import logoPic from '../mainLogo.png'
 
 const Header = (props) => {
+  const handleLogout = event => {
+    event.preventDefault()
+    props.setUser(null)
+    window.localStorage.removeItem('loggedBloglistUser')
+    props.errormessagefunction('User logged out', 'green')
+  }
+
   const styles = {
     backgroundColor: 'orange',
     display: 'flex',
@@ -16,7 +23,7 @@ const Header = (props) => {
       <img className='logo'  src={logoPic} alt='logo' />
       <h1 className='blogTitle'>Blogs</h1>
       <p className='userInfo'>{props.user.name} is logged in.</p>
-      <button id='logout-button' onClick={props.handleLogout}>Logout</button>
+      <button id='logout-button' onClick={handleLogout}>Logout</button>
     </div>
   )
 }

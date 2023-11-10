@@ -1,10 +1,28 @@
 import { React, useState } from 'react'
 import PropTypes from 'prop-types'
+import blogService from '../services/blogs'
 
-const CreateBlog = ({ handleCreateBlog }) => {
+const CreateBlog = ({ setBlogs, errormessagefunction, createBlogRef }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+
+  const handleCreateBlog = async blogObject => {
+    try {
+      const response = await blogService.create(blogObject)
+      blogService.getAll().then(blogs => setBlogs(blogs))
+      createBlogRef.current.toggleVisibility()
+      errormessagefunction(
+        `New blog ${blogObject.title} by ${blogObject.author} added`,
+        'green'
+      )
+    } catch (exception) {
+      errormessagefunction(
+        `Post unsuccesful: ${exception.response.data.error}`,
+        'red'
+      )
+    }
+  }
 
   const makeBlog = (event) => {
     event.preventDefault()
@@ -49,8 +67,5 @@ const CreateBlog = ({ handleCreateBlog }) => {
   )
 }
 
-CreateBlog.propTypes = {
-  handleCreateBlog: PropTypes.func.isRequired
-}
 
 export default CreateBlog
