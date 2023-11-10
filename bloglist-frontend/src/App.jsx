@@ -1,13 +1,14 @@
 import { useState, useEffect, useRef } from 'react'
 import Blogs from './components/Blog'
 import blogService from './services/blogs'
-import loginService from './services/login'
 import CreateBlog from './components/CreateBlog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import './app.css'
 import Header from './components/Header'
 import Login from './components/Login'
+import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -27,11 +28,13 @@ const App = () => {
     }
   }, [])
 
-  useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )
-  }, [])
+  const result = useQuery({
+    queryKey: ['anecdotes'],
+    queryFn: blogService.getAll
+  })
+  console.log(JSON.parse(JSON.stringify(result)))
+
+  const blogs = result.data
 
   const errormessagefunction = (message, style) => {
     setErrorMessage(message)
@@ -70,12 +73,12 @@ const App = () => {
           createBlogRef={createBlogRef}
         />
       </Togglable>
-      <Blogs
+      {result.isLoading ? <div>Loading blogs...</div> : <Blogs
         blogs={blogs}
         user={user}
         setBlogs={setBlogs}
         errormessagefunction={errormessagefunction}
-      />
+      />}
     </div>
   )
 }
