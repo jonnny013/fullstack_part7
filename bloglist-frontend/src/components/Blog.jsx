@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 import blogService from '../services/blogs'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { useNotificationDispatch } from '../reducers/NotificationContext'
 import { useUserValue } from '../reducers/UserContent'
 
-const Blog = ({ blog  }) => {
+const Blog = ({ blog }) => {
   const user = useUserValue()
   const queryClient = useQueryClient()
   const dispatch = useNotificationDispatch()
@@ -29,7 +29,7 @@ const Blog = ({ blog  }) => {
         return updatedBlogs
       })
     },
-    onError: (error) => {
+    onError: error => {
       dispatch({
         type: 'error',
         payload: `Failed to like the blog: ${error}`,
@@ -132,24 +132,27 @@ const Blog = ({ blog  }) => {
   )
 }
 
-export const Blogs = ({ blogs }) => {
+export const Blogs = () => {
+  const result = useQuery({
+    queryKey: ['blogs'],
+    queryFn: blogService.getAll,
+  })
+  const blogs = result.data
   return (
     <>
-      {blogs
-        .sort((a, b) => b.likes - a.likes)
-        .map(blog => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-          />
-        ))}
+      {result.isLoading ? (
+        <div>Loading blogs...</div>
+      ) : (
+        blogs
+          .sort((a, b) => b.likes - a.likes)
+          .map(blog => <Blog key={blog.id} blog={blog} />)
+      )}
     </>
   )
 }
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
 }
 
 export default Blogs
