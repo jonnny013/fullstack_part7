@@ -3,8 +3,10 @@ import PropTypes from 'prop-types'
 import blogService from '../services/blogs'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNotificationDispatch } from '../reducers/NotificationContext'
+import { useUserValue } from '../reducers/UserContent'
 
-const Blog = ({ blog, user,  }) => {
+const Blog = ({ blog  }) => {
+  const user = useUserValue()
   const queryClient = useQueryClient()
   const dispatch = useNotificationDispatch()
   const updateBlogMutation = useMutation({
@@ -130,7 +132,7 @@ const Blog = ({ blog, user,  }) => {
   )
 }
 
-export const Blogs = ({ blogs, user, setBlogs, errormessagefunction }) => {
+export const Blogs = ({ blogs }) => {
   return (
     <>
       {blogs
@@ -139,9 +141,6 @@ export const Blogs = ({ blogs, user, setBlogs, errormessagefunction }) => {
           <Blog
             key={blog.id}
             blog={blog}
-            user={user}
-            setBlogs={setBlogs}
-            errormessagefunction={errormessagefunction}
           />
         ))}
     </>

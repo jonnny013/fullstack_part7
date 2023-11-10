@@ -2,8 +2,10 @@ import { React, useState } from 'react'
 import blogService from '../services/blogs'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNotificationDispatch } from '../reducers/NotificationContext'
+import { useUserValue } from '../reducers/UserContent'
 
-const CreateBlog = ({ errormessagefunction, createBlogRef, user }) => {
+const CreateBlog = ({  createBlogRef }) => {
+  const user = useUserValue()
   const queryClient = useQueryClient()
   const dispatch = useNotificationDispatch()
   const newBlogMutation = useMutation({

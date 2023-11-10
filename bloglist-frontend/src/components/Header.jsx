@@ -1,12 +1,15 @@
 import React from 'react'
 import logoPic from '../mainLogo.png'
 import { useNotificationDispatch } from '../reducers/NotificationContext'
+import { useUserDispatch, useUserValue } from '../reducers/UserContent'
 
-const Header = (props) => {
+const Header = () => {
+  const user = useUserValue()
+  const userDispatch = useUserDispatch()
   const dispatch = useNotificationDispatch()
   const handleLogout = event => {
     event.preventDefault()
-    props.setUser(null)
+    userDispatch({ type: 'user', payload: null })
     window.localStorage.removeItem('loggedBloglistUser')
     dispatch({
       type: 'message',
@@ -27,7 +30,7 @@ const Header = (props) => {
     <div style={styles} className='headerDiv'>
       <img className='logo'  src={logoPic} alt='logo' />
       <h1 className='blogTitle'>Blogs</h1>
-      <p className='userInfo'>{props.user.name} is logged in.</p>
+      <p className='userInfo'>{user.name} is logged in.</p>
       <button id='logout-button' onClick={handleLogout}>Logout</button>
     </div>
   )
