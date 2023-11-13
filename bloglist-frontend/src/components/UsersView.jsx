@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import userService from '../services/userInfo'
+import { Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material'
 
 const UsersView = () => {
   const result = useQuery({
@@ -10,16 +11,40 @@ const UsersView = () => {
   const users = result.data
   console.log(users)
   const style = {
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    fontSize: 20,
+    borderBottom: '1px solid black',
+    borderRadius: 5,
   }
   return (
     <>
-      {result.isLoading ? <div style={style}>Loading users...</div> : users.map(user => (
-        <div style={style} key={user.id}>
-          <p>{user.name}</p>
-          <p>{user.blogs.length}</p>
-        </div>
-      )) }
+      <h2 style={{ color: 'rgb(244, 184, 4', textAlign: 'center', fontSize: 25, }}>Users</h2>
+      {result.isLoading ? (
+        <div style={style}>Loading users...</div>
+      ) : (
+        <TableContainer style={style}>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TableCell style={style}>
+                  <strong>User Name</strong>
+                </TableCell>
+                <TableCell style={style}>
+                  <strong>Blogs created</strong>
+                </TableCell>
+              </TableRow>
+              {users.map(user => (
+                <TableRow key={user.id}>
+                  <TableCell sx={{ fontSize: 20 }}>{user.name}</TableCell>
+                  <TableCell sx={{ fontSize: 20 }}>
+                    {user.blogs.length}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </>
   )
 }

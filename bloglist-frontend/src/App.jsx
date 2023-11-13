@@ -12,6 +12,7 @@ import { useUserDispatch, useUserValue } from './reducers/UserContent'
 import checkTokenExpiration from './services/tokenCheck'
 import UsersView from './components/UsersView'
 import Footer from './components/Footer'
+import { Container } from '@mui/material'
 
 const App = () => {
   const dipsatch = useUserDispatch()
@@ -39,7 +40,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <Container>
       <Header />
       <Notification />
       <Togglable buttonLabel='Create New Blog' ref={createBlogRef}>
@@ -48,7 +49,7 @@ const App = () => {
       <Blogs />
       <UsersView />
       <Footer />
-    </div>
+    </Container>
   )
 }
 
