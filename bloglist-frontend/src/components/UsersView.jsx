@@ -1,14 +1,23 @@
 import { useQuery } from '@tanstack/react-query'
-import React from 'react'
+import React, { useEffect } from 'react'
 import userService from '../services/userInfo'
 import { Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material'
+import { useAllUsersDispatch } from '../reducers/AllUsersContext'
+import { Link } from 'react-router-dom'
 
 const UsersView = () => {
+  const allUserDispatch = useAllUsersDispatch()
+
   const result = useQuery({
     queryKey: ['users'],
     queryFn: userService.getUsers,
   })
   const users = result.data
+
+  useEffect(() => {
+    allUserDispatch({ type: 'users', payload: users })
+  }, [users])
+
 
   const style = {
     backgroundColor: 'white',
@@ -18,7 +27,11 @@ const UsersView = () => {
   }
   return (
     <>
-      <h2 style={{ color: 'rgb(244, 184, 4', textAlign: 'center', fontSize: 25, }}>Users</h2>
+      <h2
+        style={{ color: 'rgb(244, 184, 4', textAlign: 'center', fontSize: 25 }}
+      >
+        Users
+      </h2>
       {result.isLoading ? (
         <div style={style}>Loading users...</div>
       ) : (
@@ -35,7 +48,9 @@ const UsersView = () => {
               </TableRow>
               {users.map(user => (
                 <TableRow key={user.id}>
-                  <TableCell sx={{ fontSize: 20 }}>{user.name}</TableCell>
+                  <TableCell sx={{ fontSize: 20 }}>
+                    <Link to={`/users/${user.id}`} state={{ user }}> {user.name}</Link>
+                  </TableCell>
                   <TableCell sx={{ fontSize: 20 }}>
                     {user.blogs.length}
                   </TableCell>

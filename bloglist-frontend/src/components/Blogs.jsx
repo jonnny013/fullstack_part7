@@ -3,7 +3,7 @@ import blogService from '../services/blogs'
 import Blog from './Blog'
 import Togglable from './Togglable'
 import CreateBlog from './CreateBlog'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useBlogsDispatch } from '../reducers/BlogsContext'
 
 export const Blogs = () => {
@@ -15,7 +15,11 @@ export const Blogs = () => {
     queryFn: blogService.getAllBlogs,
   })
   const blogs = result.data
-  blogDispatch({ type: 'blogs', payload: blogs })
+
+  useEffect(() => {
+    blogDispatch({ type: 'blogs', payload: blogs })
+  }, [blogs])
+
   return (
     <>
       <Togglable buttonLabel='Create New Blog' ref={createBlogRef}>

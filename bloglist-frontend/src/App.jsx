@@ -8,7 +8,7 @@ import checkTokenExpiration from './services/tokenCheck'
 import Blogs from './components/Blogs'
 import blogService from './services/blogs'
 import Notification from './components/Notification'
-import BlogView from './components/BlogView'
+import SingleUserView from './components/SingleUserView'
 import Header from './components/Header'
 import Login from './components/Login'
 import UsersView from './components/UsersView'
@@ -45,7 +45,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<Blogs />} />
           <Route path='/users' element={<UsersView />} />
-          <Route path='/users:id' element={<BlogView />}/>
+          <Route path='/users/:id' element={<SingleUserView  />}/>
           <Route path='/login' element={<Login />} />
         </Routes>
 

@@ -27,7 +27,7 @@ export const useAllUsersValue = () => {
 
 export const useAllUsersDispatch = () => {
   const allUsersAndDispatch = useContext(AllUsersContext)
-  return allUsersAndDispatch[0]
+  return allUsersAndDispatch[1]
 }
 
 export default AllUsersContext
