@@ -2,6 +2,7 @@ const commentRouter = require('express').Router()
 const Comment = require('../models/comment')
 const middleware = require('../utils/middleware')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 commentRouter.get('/', async (request, response) => {
     const comments = await Comment.find({}).populate('blogs', {
@@ -26,7 +27,7 @@ commentRouter.post('/', middleware.userExtractor, async (request, response) => {
 
     const savedComment = await comment.save()
     await Blog.findByIdAndUpdate(blogId, { $push: { comments: savedComment } })
-
+    await User.findByIdAndUpdate(user.id, { $push: { comments: savedComment } })
     response.status(201).json(savedComment)
 })
 

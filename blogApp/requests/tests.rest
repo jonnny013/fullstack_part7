@@ -24,13 +24,12 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvbiIsImlkIjoiNjUzZjhlODUyNDAxNDI0YmFkZDhkZWNmIiwiaWF0IjoxNjk5ODYyNzYxLCJleHAiOjE2OTk4NjYzNjF9.eYfPQMtfJ_Lf-8fZnwuj7gh7U7Eat5s6oxXtXVD-WEk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvbiIsImlkIjoiNjUzMWQ4NWEyMGNhZGY1ZWUwZTJlZThiIiwiaWF0IjoxNjk5ODc1MzA5LCJleHAiOjE2OTk4Nzg5MDl9.n24eAMs8OO_qoiDKgSymJ98D94F_ovy4mhxcZCk4HBs
 
 {
      "title": "test moving user to middleware",
     "url": "empty",
-    "author": "Jon",
-    "comments": "A comment"
+    "author": "Jon"
 }
 
 ###
@@ -41,11 +40,11 @@ GET http://localhost:3003/api/comments
 
 POST http://localhost:3003/api/comments
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvbiIsImlkIjoiNjUzZjhlODUyNDAxNDI0YmFkZDhkZWNmIiwiaWF0IjoxNjk5ODU5MDUwLCJleHAiOjE2OTk4NjI2NTB9.Y4WtlpJEhbhTOHFEtEg8cT9wXleNr60odUanh0wGJ9M
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvbiIsImlkIjoiNjUzMWQ4NWEyMGNhZGY1ZWUwZTJlZThiIiwiaWF0IjoxNjk5ODc1MzA5LCJleHAiOjE2OTk4Nzg5MDl9.n24eAMs8OO_qoiDKgSymJ98D94F_ovy4mhxcZCk4HBs
 
 {
      "content": "This is a comment",
-     "blogId": "6551d3b7616925ad757519ac"
+     "blogId": "65520a6307bc86c26a1afa59"
 }
 
 ###
