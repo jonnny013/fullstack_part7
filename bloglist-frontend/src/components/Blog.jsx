@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import blogService from '../services/blogs'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNotificationDispatch } from '../reducers/NotificationContext'
@@ -83,6 +82,7 @@ const Blog = () => {
     marginBottom: 5,
     borderRadius: 5,
     backgroundColor: 'rgb(155, 195, 217)',
+    width: '100%'
   }
   const paragraphStyle = {
     margin: 2,
@@ -101,9 +101,11 @@ const Blog = () => {
   }
 
   return (
-    <div style={blogStyle} className='blogTitleDisplay'>
-
-      <div  className='blogFullInfoDisplay'>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} className='blogTitleDisplay'>
+      <Link to='/'>
+        <button style={{  textAlign: 'center',  }}>Back</button>
+      </Link>
+      <div style={blogStyle} className='blogFullInfoDisplay'>
         <h2 style={paragraphStyle}>{blog.title}</h2>
         <p style={paragraphStyle}>
           Link:{' '}
@@ -117,7 +119,7 @@ const Blog = () => {
             Like
           </button>
         </p>
-        <p style={paragraphStyle}>User: {blog.user.name}</p>
+        <p style={paragraphStyle}>Added by: {blog.user.name}</p>
         {blog.user.username === user.username && (
           <p style={paragraphStyle}>
             <button id='remove-button' onClick={() => handleDelete(blog)}>
@@ -125,6 +127,10 @@ const Blog = () => {
             </button>
           </p>
         )}
+        <p style={paragraphStyle}>Comments</p>
+        <ul>
+          
+        </ul>
       </div>
     </div>
   )
