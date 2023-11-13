@@ -81,11 +81,6 @@ button {
     flex-direction: column;
 }
 
-.logo {
-    width: 100px;
-    height: auto;
-    padding-left: 50px;
-}
 
 @media only screen and (max-width: 600px) {
   .headerDiv {

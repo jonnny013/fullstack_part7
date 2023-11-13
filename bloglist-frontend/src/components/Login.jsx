@@ -3,6 +3,7 @@ import loginService from '../services/login'
 import { useNotificationDispatch } from '../reducers/NotificationContext'
 import { useUserDispatch } from '../reducers/UserContent'
 import { useState } from 'react'
+import Notification from './Notification'
 
 const Login = () => {
   const [username, setUsername] = useState('')
@@ -35,6 +36,7 @@ const Login = () => {
 
   return (
     <form onSubmit={handleLogin}>
+      <Notification />
       <h1>Log In</h1>
       <div>
         <p className='login-paragraph'>Username</p>

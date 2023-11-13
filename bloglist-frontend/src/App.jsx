@@ -1,23 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
+import { useUserDispatch, useUserValue } from './reducers/UserContent'
+import { Container } from '@mui/material'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import './app.css'
+import checkTokenExpiration from './services/tokenCheck'
 import Blogs from './components/Blogs'
 import blogService from './services/blogs'
-import CreateBlog from './components/CreateBlog'
 import Notification from './components/Notification'
-import Togglable from './components/Togglable'
-import './app.css'
+import BlogView from './components/BlogView'
 import Header from './components/Header'
 import Login from './components/Login'
-import { useUserDispatch, useUserValue } from './reducers/UserContent'
-import checkTokenExpiration from './services/tokenCheck'
 import UsersView from './components/UsersView'
 import Footer from './components/Footer'
-import { Container } from '@mui/material'
 
 const App = () => {
   const dipsatch = useUserDispatch()
   const user = useUserValue()
-  const createBlogRef = useRef()
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
@@ -33,23 +32,28 @@ const App = () => {
   if (!user) {
     return (
       <div className='login-div'>
-        <Notification />
         <Login />
       </div>
     )
   }
 
   return (
-    <Container>
-      <Header />
-      <Notification />
-      <Togglable buttonLabel='Create New Blog' ref={createBlogRef}>
-        <CreateBlog createBlogRef={createBlogRef} />
-      </Togglable>
-      <Blogs />
-      <UsersView />
-      <Footer />
-    </Container>
+    <Router>
+      <Container>
+        <Header />
+        <Notification />
+        <Routes>
+          <Route path='/' element={<Blogs />} />
+          <Route path='/users' element={<UsersView />} />
+          <Route path='/users:id' element={<BlogView />}/>
+          <Route path='/login' element={<Login />} />
+        </Routes>
+
+
+
+        <Footer />
+      </Container>
+    </Router>
   )
 }
 

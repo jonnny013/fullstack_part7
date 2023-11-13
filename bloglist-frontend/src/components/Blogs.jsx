@@ -1,15 +1,26 @@
 import { useQuery } from '@tanstack/react-query'
 import blogService from '../services/blogs'
 import Blog from './Blog'
+import Togglable from './Togglable'
+import CreateBlog from './CreateBlog'
+import { useRef } from 'react'
+import { useBlogsDispatch } from '../reducers/BlogsContext'
 
 export const Blogs = () => {
+  const blogDispatch = useBlogsDispatch()
+  const createBlogRef = useRef()
+
   const result = useQuery({
     queryKey: ['blogs'],
     queryFn: blogService.getAllBlogs,
   })
   const blogs = result.data
+  blogDispatch({ type: 'blogs', payload: blogs })
   return (
     <>
+      <Togglable buttonLabel='Create New Blog' ref={createBlogRef}>
+        <CreateBlog createBlogRef={createBlogRef} />
+      </Togglable>
       {result.isLoading ? (
         <div>Loading blogs...</div>
       ) : (

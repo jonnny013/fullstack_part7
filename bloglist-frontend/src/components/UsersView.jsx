@@ -9,7 +9,7 @@ const UsersView = () => {
     queryFn: userService.getUsers,
   })
   const users = result.data
-  console.log(users)
+
   const style = {
     backgroundColor: 'white',
     fontSize: 20,
