@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef } from 'react'
-import Blogs from './components/Blog'
+import Blogs from './components/Blogs'
 import blogService from './services/blogs'
 import CreateBlog from './components/CreateBlog'
 import Notification from './components/Notification'

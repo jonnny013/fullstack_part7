@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 import blogService from '../services/blogs'
-import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNotificationDispatch } from '../reducers/NotificationContext'
 import { useUserValue } from '../reducers/UserContent'
 
@@ -132,27 +132,10 @@ const Blog = ({ blog }) => {
   )
 }
 
-export const Blogs = () => {
-  const result = useQuery({
-    queryKey: ['blogs'],
-    queryFn: blogService.getAll,
-  })
-  const blogs = result.data
-  return (
-    <>
-      {result.isLoading ? (
-        <div>Loading blogs...</div>
-      ) : (
-        blogs
-          .sort((a, b) => b.likes - a.likes)
-          .map(blog => <Blog key={blog.id} blog={blog} />)
-      )}
-    </>
-  )
-}
+
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
 }
 
-export default Blogs
+export default Blog
