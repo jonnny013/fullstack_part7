@@ -4,11 +4,15 @@ import blogService from '../services/blogs'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNotificationDispatch } from '../reducers/NotificationContext'
 import { useUserValue } from '../reducers/UserContent'
+import { useLocation } from 'react-router-dom'
 
-const Blog = ({ blog }) => {
+const Blog = () => {
   const user = useUserValue()
   const queryClient = useQueryClient()
   const dispatch = useNotificationDispatch()
+  const location = useLocation()
+  const blog = location.state.blog
+
   const updateBlogMutation = useMutation({
     mutationFn: blogService.addLike,
     onMutate: () => {
@@ -84,29 +88,23 @@ const Blog = ({ blog }) => {
     margin: 2,
     fontSize: '2.3rem',
   }
-  const [visible, setVisible] = useState(false)
-  const showWhenVisible = { display: visible ? '' : 'none' }
+
 
   const getClickableLink = link => {
     return link.startsWith('http://') || link.startsWith('https://')
       ? link
       : `http://${link}`
   }
-  const toggleVisibility = () => {
-    setVisible(!visible)
+
+  if (!blog) {
+    return <p style={{ color: 'white' }}>Currently unavailable</p>
   }
-  const viewHideButton = visible ? 'Hide' : 'View'
+
   return (
     <div style={blogStyle} className='blogTitleDisplay'>
-      <div>
-        <p style={paragraphStyle}>
-          {blog.title} - {blog.author}{' '}
-          <button id='view-hide-button' onClick={toggleVisibility}>
-            {viewHideButton}
-          </button>
-        </p>
-      </div>
-      <div style={showWhenVisible} className='blogFullInfoDisplay'>
+
+      <div  className='blogFullInfoDisplay'>
+        <h2 style={paragraphStyle}>{blog.title}</h2>
         <p style={paragraphStyle}>
           Link:{' '}
           <a href={getClickableLink(blog.url)} target='_blank' rel='noreferrer'>
@@ -130,12 +128,6 @@ const Blog = ({ blog }) => {
       </div>
     </div>
   )
-}
-
-
-
-Blog.propTypes = {
-  blog: PropTypes.object.isRequired,
 }
 
 export default Blog

@@ -13,6 +13,7 @@ import Header from './components/Header'
 import Login from './components/Login'
 import UsersView from './components/UsersView'
 import Footer from './components/Footer'
+import Blog from './components/Blog'
 
 const App = () => {
   const dipsatch = useUserDispatch()
@@ -47,6 +48,7 @@ const App = () => {
           <Route path='/users' element={<UsersView />} />
           <Route path='/users/:id' element={<SingleUserView  />}/>
           <Route path='/login' element={<Login />} />
+          <Route path='/blogs/:id' element={<Blog />} />
         </Routes>
 
 

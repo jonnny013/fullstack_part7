@@ -5,6 +5,7 @@ import Togglable from './Togglable'
 import CreateBlog from './CreateBlog'
 import { useEffect, useRef } from 'react'
 import { useBlogsDispatch } from '../reducers/BlogsContext'
+import { Link } from 'react-router-dom'
 
 export const Blogs = () => {
   const blogDispatch = useBlogsDispatch()
@@ -20,6 +21,16 @@ export const Blogs = () => {
     blogDispatch({ type: 'blogs', payload: blogs })
   }, [blogs])
 
+  const blogStyle = {
+    paddingTop: 5,
+    paddingLeft: 2,
+    border: 'solid',
+    borderWidth: 1,
+    marginBottom: 5,
+    borderRadius: 5,
+    backgroundColor: 'rgb(155, 195, 217)',
+  }
+
   return (
     <>
       <Togglable buttonLabel='Create New Blog' ref={createBlogRef}>
@@ -30,7 +41,25 @@ export const Blogs = () => {
       ) : (
         blogs
           .sort((a, b) => b.likes - a.likes)
-          .map(blog => <Blog key={blog.id} blog={blog} />)
+          .map(blog => (
+            <Link
+              key={blog.id}
+              to={`/blogs/${blog.id}`}
+              element={<Blog />}
+              state={{ blog }}
+            >
+              <div style={blogStyle} className='blogTitleDisplay'>
+                <p
+                  style={{
+                    margin: 2,
+                    fontSize: '2.3rem',
+                  }}
+                >
+                  {blog.title}
+                </p>
+              </div>
+            </Link>
+          ))
       )}
     </>
   )
