@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom'
 import blogService from '../services/blogs'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { useNotificationDispatch } from '../reducers/NotificationContext'
 import { useUserValue } from '../reducers/UserContent'
 import { useLocation } from 'react-router-dom'
+import commentService from '../services/comments'
+import { TextField, Button } from '@mui/material'
+import { useState } from 'react'
 
 const Blog = () => {
   const user = useUserValue()
@@ -11,6 +14,13 @@ const Blog = () => {
   const dispatch = useNotificationDispatch()
   const location = useLocation()
   const blog = location.state.blog
+  const [comment, setComment] = useState('')
+
+  const result = useQuery({
+    queryKey: ['comments'],
+    queryFn: commentService.getAllComments,
+  })
+  const comments = result.data
 
   const updateBlogMutation = useMutation({
     mutationFn: blogService.addLike,
@@ -62,6 +72,40 @@ const Blog = () => {
     },
   })
 
+  const newCommentMutation = useMutation({
+    mutationFn: commentService.postComment,
+    onMutate: () => {
+      dispatch({
+        type: 'loading',
+        payload: 'Loading...',
+      })
+    },
+    onSuccess: newComment => {
+      const blogs = queryClient.getQueryData(['blogs'])
+      queryClient.setQueryData(['blogs'], blogs.comments.concat(newComment))
+      dispatch({
+        type: 'message',
+        payload: `New comment added: ${newComment.content}`,
+      })
+    },
+    onError: error => {
+      dispatch({
+        type: 'error',
+        payload: `Post unsuccesful: ${error.response.data.error}`,
+      })
+    },
+  })
+
+  const onCommentSubmit = async (event) => {
+    event.preventDefault()
+    const newComment = {
+      content: comment,
+      blogId: blog.id
+    }
+    newCommentMutation.mutate(newComment)
+    setComment('')
+  }
+
   const handleDelete = async blog => {
     event.preventDefault()
     if (window.confirm(`Would you like to delete the blog: ${blog.title}?`)) {
@@ -101,9 +145,12 @@ const Blog = () => {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} className='blogTitleDisplay'>
+    <div
+      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+      className='blogTitleDisplay'
+    >
       <Link to='/'>
-        <button style={{  textAlign: 'center',  }}>Back</button>
+        <button style={{ textAlign: 'center' }}>Back</button>
       </Link>
       <div style={blogStyle} className='blogFullInfoDisplay'>
         <h2 style={paragraphStyle}>{blog.title}</h2>
@@ -127,9 +174,23 @@ const Blog = () => {
             </button>
           </p>
         )}
-        <p style={paragraphStyle}>Comments</p>
+        <p style={paragraphStyle}>Comments:</p>
+        <form onSubmit={onCommentSubmit}>
+          <div>
+            <TextField label='comment' value={ comment } onInput={ e=> setComment(e.target.value)} />
+          </div>
+          <div>
+            <Button variant='contained' color='primary' type='submit'>
+              Comment
+            </Button>
+          </div>
+        </form>
         <ul>
-          
+          {blog.comments.map(comment => (
+            <li key={comment.id} style={paragraphStyle}>
+              {comment.content}
+            </li>
+          ))}
         </ul>
       </div>
     </div>

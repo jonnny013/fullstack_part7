@@ -7,6 +7,7 @@ import './app.css'
 import checkTokenExpiration from './services/tokenCheck'
 import Blogs from './components/Blogs'
 import blogService from './services/blogs'
+import commentService from './services/comments'
 import Notification from './components/Notification'
 import SingleUserView from './components/SingleUserView'
 import Header from './components/Header'
@@ -25,6 +26,7 @@ const App = () => {
       const user = JSON.parse(loggedUserJSON)
       dipsatch({ type: 'user', payload: user })
       blogService.setToken(user.token)
+      commentService.setToken(user.token)
     }
   }, [])
 
