@@ -8,7 +8,6 @@ export const Blogs = () => {
     queryFn: blogService.getAllBlogs,
   })
   const blogs = result.data
-  console.log(blogs)
   return (
     <>
       {result.isLoading ? (

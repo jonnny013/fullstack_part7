@@ -10,6 +10,8 @@ import Header from './components/Header'
 import Login from './components/Login'
 import { useUserDispatch, useUserValue } from './reducers/UserContent'
 import checkTokenExpiration from './services/tokenCheck'
+import UsersView from './components/UsersView'
+import Footer from './components/Footer'
 
 const App = () => {
   const dipsatch = useUserDispatch()
@@ -44,6 +46,8 @@ const App = () => {
         <CreateBlog createBlogRef={createBlogRef} />
       </Togglable>
       <Blogs />
+      <UsersView />
+      <Footer />
     </div>
   )
 }
