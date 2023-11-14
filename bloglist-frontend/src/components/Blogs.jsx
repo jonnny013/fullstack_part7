@@ -18,6 +18,9 @@ export const Blogs = () => {
     marginBottom: 5,
     borderRadius: 5,
     backgroundColor: 'rgb(155, 195, 217)',
+    visited: {
+      color: 'black'
+    }
   }
 
   return (
@@ -34,12 +37,16 @@ export const Blogs = () => {
             to={`/blogs/${blog.id}`}
             element={<Blog />}
             state={{ blog }}
+            style={{ visited: { color: 'black' } }}
           >
             <div style={blogStyle} className='blogTitleDisplay'>
               <p
                 style={{
                   margin: 2,
                   fontSize: '2.3rem',
+                  visited: {
+                    color: 'black'
+                  }
                 }}
               >
                 {blog.title}

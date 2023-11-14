@@ -48,11 +48,12 @@ const Header = () => {
             bgcolor: 'transparent',
             height: 70,
             width: '100%',
-            margin: 'auto',
+            margin: '20px',
             alignItems: 'center',
             '& .MuiBottomNavigationAction-root,  svg': {
               color: '#007A78',
               fontSize: 55,
+              margin: 1
             },
             '& .MuiBottomNavigationAction-label,': {
               fontSize: 20,

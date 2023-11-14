@@ -4,6 +4,7 @@ import { useNotificationDispatch } from '../reducers/NotificationContext'
 import { useUserDispatch } from '../reducers/UserContent'
 import { useState } from 'react'
 import Notification from './Notification'
+import { TextField } from '@mui/material'
 
 const Login = () => {
   const [username, setUsername] = useState('')
@@ -40,9 +41,10 @@ const Login = () => {
       <h1>Log In</h1>
       <div>
         <p className='login-paragraph'>Username</p>
-        <input
-          type='text'
-          id='username'
+        <TextField
+          label='Username'
+          id='outlined-basic'
+          variant='outlined'
           value={username}
           name='Username'
           onChange={({ target }) => setUsername(target.value)}
@@ -50,12 +52,13 @@ const Login = () => {
       </div>
       <div>
         <p className='login-paragraph'>Password</p>
-        <input
+        <TextField
           type='password'
-          id='password'
+          label='Password'
           value={password}
-          name='Password'
           onChange={({ target }) => setPassword(target.value)}
+          name='Password'
+          id='password'
         />
       </div>
       <button type='submit' id='login-button'>

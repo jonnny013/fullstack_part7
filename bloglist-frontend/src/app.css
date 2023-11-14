@@ -44,14 +44,9 @@ button {
   background-color: rgb(244, 184, 4);
 }
 
-#password,
-#username {
-  width: 150px;
-  height: 20px;
-  border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.536);
-  background-color: antiquewhite;
-  text-align: center;
+
+a:visited {
+    color: black
 }
 
 #title-input,
@@ -85,7 +80,7 @@ button {
 }
 
 p:visited {
-  color: black;
+  color: blue;
 }
 
 @media only screen and (max-width: 600px) {
