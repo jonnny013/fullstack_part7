@@ -3,18 +3,26 @@ import blogService from '../services/blogs'
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { useNotificationDispatch } from '../reducers/NotificationContext'
 import { useUserValue } from '../reducers/UserContent'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import commentService from '../services/comments'
 import { TextField, Button } from '@mui/material'
 import { useState } from 'react'
+import { useBlogsValue } from '../reducers/BlogsContext'
 
 const Blog = () => {
   const user = useUserValue()
   const queryClient = useQueryClient()
   const dispatch = useNotificationDispatch()
   const location = useLocation()
-  const blog = location.state.blog
+  const navigate = useNavigate()
+  const thisBlog = location.state.blog
   const [comment, setComment] = useState('')
+  const blogs = useBlogsValue()
+  let blog = null
+
+  if (thisBlog && blogs) {
+    blog = blogs.find(blog => blog.id === thisBlog.id)
+  }
 
   const result = useQuery({
     queryKey: ['comments'],
@@ -63,6 +71,7 @@ const Blog = () => {
         type: 'message',
         payload: 'Blog deleted!',
       })
+      navigate('/')
     },
     onError: error => {
       dispatch({
@@ -81,11 +90,16 @@ const Blog = () => {
       })
     },
     onSuccess: newComment => {
-      const blogs = queryClient.getQueryData(['blogs'])
-      queryClient.setQueryData(['blogs'], blogs.comments.concat(newComment))
+      console.log(newComment)
       dispatch({
         type: 'message',
         payload: `New comment added: ${newComment.content}`,
+      })
+      queryClient.setQueryData(['blogs'], blogs => {
+        const updatedBlogs = blogs.map(blog =>
+          blog.id === newComment.blog ? { ...blog, comments: [...blog.comments, newComment] } : blog
+        )
+        return updatedBlogs
       })
     },
     onError: error => {
@@ -95,7 +109,7 @@ const Blog = () => {
       })
     },
   })
-
+  console.log(blogs)
   const onCommentSubmit = async (event) => {
     event.preventDefault()
     const newComment = {
@@ -177,7 +191,7 @@ const Blog = () => {
         <p style={paragraphStyle}>Comments:</p>
         <form onSubmit={onCommentSubmit}>
           <div>
-            <TextField label='comment' value={ comment } onInput={ e=> setComment(e.target.value)} />
+            <TextField label='comment' value={ comment } onInput={ e => setComment(e.target.value)} />
           </div>
           <div>
             <Button variant='contained' color='primary' type='submit'>

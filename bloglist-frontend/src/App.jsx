@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { useUserDispatch, useUserValue } from './reducers/UserContent'
 import { Container } from '@mui/material'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
@@ -15,10 +16,12 @@ import Login from './components/Login'
 import UsersView from './components/UsersView'
 import Footer from './components/Footer'
 import Blog from './components/Blog'
+import { useBlogsDispatch } from './reducers/BlogsContext'
 
 const App = () => {
   const dipsatch = useUserDispatch()
   const user = useUserValue()
+  const blogDispatch = useBlogsDispatch()
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
@@ -32,11 +35,24 @@ const App = () => {
 
   checkTokenExpiration()
 
+  const result = useQuery({
+    queryKey: ['blogs'],
+    queryFn: blogService.getAllBlogs,
+  })
+  const blogs = result.data
+
+  useEffect(() => {
+    blogDispatch({ type: 'blogs', payload: blogs })
+  }, [blogs])
+
   if (!user) {
     return (
-      <div className='login-div'>
-        <Login />
-      </div>
+      <>
+        <div className='login-div'>
+          <Login />
+        </div>
+        <Footer />
+      </>
     )
   }
 
@@ -52,9 +68,6 @@ const App = () => {
           <Route path='/login' element={<Login />} />
           <Route path='/blogs/:id' element={<Blog />} />
         </Routes>
-
-
-
         <Footer />
       </Container>
     </Router>

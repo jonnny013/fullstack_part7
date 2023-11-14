@@ -1,12 +1,53 @@
-import React from 'react'
+import { BottomNavigation, BottomNavigationAction, Box } from '@mui/material'
+import { useState } from 'react'
+import GitHubIcon from '@mui/icons-material/GitHub'
+import WebIcon from '@mui/icons-material/Web'
+import MenuBookIcon from '@mui/icons-material/MenuBook'
+
 
 const Footer = () => {
-  const styles = {
-    color: 'white'
+  const onClick = (website) => {
+    window.open(website, '_blank')
   }
 
+
   return (
-    <div style={styles}>Footer</div>
+    <Box>
+      <BottomNavigation
+        showLabels
+        sx={{
+          bgcolor: 'transparent',
+          height: 50,
+          marginTop: 5,
+          alignItems: 'center',
+          '& .MuiBottomNavigationAction-root, .Mui-selected, svg': {
+            color: '#007A78',
+            fontSize: 25,
+          },
+          '& .MuiBottomNavigationAction-label,': {
+            fontSize: 15,
+          },
+        }}
+      >
+        <BottomNavigationAction
+          label='Course Info'
+          icon={<MenuBookIcon />}
+          onClick={() => onClick('https://fullstackopen.com/en/')}
+        />
+        <BottomNavigationAction
+          label='My Portfolio'
+          icon={<WebIcon />}
+          onClick={() => onClick('https://jonnny013.github.io')}
+        />
+        <BottomNavigationAction
+          label='Source Code'
+          icon={<GitHubIcon />}
+          onClick={() =>
+            onClick('https://github.com/jonnny013/fullstack_part7')
+          }
+        />
+      </BottomNavigation>
+    </Box>
   )
 }
 

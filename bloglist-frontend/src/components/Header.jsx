@@ -3,6 +3,10 @@ import logoPic from '../mainLogo.png'
 import { useNotificationDispatch } from '../reducers/NotificationContext'
 import { useUserDispatch, useUserValue } from '../reducers/UserContent'
 import { Link } from 'react-router-dom'
+import { BottomNavigation, BottomNavigationAction, Box } from '@mui/material'
+import LogoutIcon from '@mui/icons-material/Logout'
+import ContactPageIcon from '@mui/icons-material/ContactPage'
+import BookIcon from '@mui/icons-material/Book'
 
 const Header = () => {
   const user = useUserValue()
@@ -37,14 +41,45 @@ const Header = () => {
         <img style={logoStyle} className='logo' src={logoPic} alt='logo' />
         <h1 className='blogTitle'>Blogs</h1>
       </div>
-      <Link to='/'>Blogs</Link>
-      <Link to='/users'>Users</Link>
-
+      <Box>
+        <BottomNavigation
+          showLabels
+          sx={{
+            bgcolor: 'transparent',
+            height: 70,
+            width: '100%',
+            margin: 'auto',
+            alignItems: 'center',
+            '& .MuiBottomNavigationAction-root,  svg': {
+              color: '#007A78',
+              fontSize: 55,
+            },
+            '& .MuiBottomNavigationAction-label,': {
+              fontSize: 20,
+            },
+          }}
+        >
+          <BottomNavigationAction
+            label='Blogs'
+            icon={<BookIcon />}
+            component={Link}
+            to='/'
+          />
+          <BottomNavigationAction
+            label='Users'
+            icon={<ContactPageIcon />}
+            component={Link}
+            to='/users'
+          />
+          <BottomNavigationAction
+            label='Logout'
+            icon={<LogoutIcon />}
+            onClick={handleLogout}
+          />
+        </BottomNavigation>
+      </Box>
       <div>
         <p className='userInfo'>{user.name} is logged in.</p>
-        <button id='logout-button' onClick={handleLogout}>
-          Logout
-        </button>
       </div>
     </div>
   )
