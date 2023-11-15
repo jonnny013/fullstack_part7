@@ -51,6 +51,7 @@ export const Blogs = () => {
               >
                 {blog.title}
               </p>
+              <br />
             </div>
           </Link>
         ))}

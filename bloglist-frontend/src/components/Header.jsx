@@ -12,6 +12,7 @@ const Header = () => {
   const user = useUserValue()
   const userDispatch = useUserDispatch()
   const dispatch = useNotificationDispatch()
+
   const handleLogout = event => {
     event.preventDefault()
     userDispatch({ type: 'user', payload: null })
@@ -53,10 +54,13 @@ const Header = () => {
             '& .MuiBottomNavigationAction-root,  svg': {
               color: '#007A78',
               fontSize: 55,
-              margin: 1
+              margin: 1,
             },
             '& .MuiBottomNavigationAction-label,': {
               fontSize: 20,
+            },
+            '@media (max-width: 600px)': {
+              margin: '0',
             },
           }}
         >

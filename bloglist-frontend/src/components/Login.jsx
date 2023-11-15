@@ -40,7 +40,6 @@ const Login = () => {
       <Notification />
       <h1>Log In</h1>
       <div>
-        <p className='login-paragraph'>Username</p>
         <TextField
           label='Username'
           id='outlined-basic'
@@ -48,10 +47,12 @@ const Login = () => {
           value={username}
           name='Username'
           onChange={({ target }) => setUsername(target.value)}
+          inputProps={{ style: { fontSize: 20 } }}
+          InputLabelProps={{ style: { fontSize: 20 } }}
         />
       </div>
+      <br />
       <div>
-        <p className='login-paragraph'>Password</p>
         <TextField
           type='password'
           label='Password'
@@ -59,6 +60,8 @@ const Login = () => {
           onChange={({ target }) => setPassword(target.value)}
           name='Password'
           id='password'
+          inputProps={{ style: { fontSize: 20 } }}
+          InputLabelProps={{ style: { fontSize: 20 } }}
         />
       </div>
       <button type='submit' id='login-button'>
