@@ -19,6 +19,7 @@ commentRouter.post('/', middleware.userExtractor, async (request, response) => {
     console.log(body)
     const blogId = body.blogId
     const user = request.user
+
     const comment = new Comment({
         content: body.content,
         blog: body.blogId,
