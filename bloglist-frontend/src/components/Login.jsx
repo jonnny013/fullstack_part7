@@ -1,5 +1,6 @@
 import blogService from '../services/blogs'
 import loginService from '../services/login'
+import commentService from '../services/comments'
 import { useNotificationDispatch } from '../reducers/NotificationContext'
 import { useUserDispatch } from '../reducers/UserContent'
 import { useState } from 'react'
@@ -8,7 +9,7 @@ import { TextField } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 import NewUser from './NewUser'
 
-const Login = ({ loggedIn }) => {
+const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useNotificationDispatch()
@@ -24,6 +25,7 @@ const Login = ({ loggedIn }) => {
       })
       window.localStorage.setItem('loggedBloglistUser', JSON.stringify(user))
       blogService.setToken(user.token)
+      commentService.setToken(user.token)
       userDipsatch({ type: 'user', payload: user })
       setUsername('')
       setPassword('')
@@ -71,7 +73,7 @@ const Login = ({ loggedIn }) => {
           />
         </div>
         <Link to='/newuser' element={<NewUser />}>
-          <button>New User</button>
+          <button type='button'>New User</button>
         </Link>
         <button type='submit' id='login-button'>
           Login

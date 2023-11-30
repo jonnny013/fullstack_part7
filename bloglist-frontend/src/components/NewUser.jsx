@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import userService from '../services/userInfo'
 import blogService from '../services/blogs'
+import commentService from '../services/comments'
 import { useUserDispatch } from '../reducers/UserContent'
 import { useNotificationDispatch } from '../reducers/NotificationContext'
 import Notification from './Notification'
@@ -8,7 +9,7 @@ import { TextField } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 import loginService from '../services/login'
 
-const NewUser = ({ loggedIn }) => {
+const NewUser = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPass, setConfirmPass] = useState('')
@@ -38,6 +39,7 @@ const NewUser = ({ loggedIn }) => {
       })
       window.localStorage.setItem('loggedBloglistUser', JSON.stringify(loggedInUser))
       blogService.setToken(user.token)
+      commentService.setToken(user.token)
       userDipsatch({ type: 'user', payload: user })
       setUsername('')
       setPassword('')
@@ -113,7 +115,7 @@ const NewUser = ({ loggedIn }) => {
           />
         </div>
         <Link to='/login'>
-          <button>Cancel</button>
+          <button type='button'>Cancel</button>
         </Link>
         <button type='submit' id='login-button'>
           Create

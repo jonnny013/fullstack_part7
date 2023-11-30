@@ -74,8 +74,8 @@ const App = () => {
               <Route path='/users' element={<UsersView />} />
               <Route path='/users/:id' element={<SingleUserView />} />
               <Route path='/blogs/:id' element={<Blog />} />
-              <Route path='/login' element={<Login loggedIn={user} />} />
-              <Route path='/newuser' element={<NewUser loggedIn={user} />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/newuser' element={<NewUser />} />
             </>
           )}
         </Routes>

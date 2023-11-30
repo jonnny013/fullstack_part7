@@ -2,7 +2,7 @@ import React from 'react'
 import logoPic from '../mainLogo.png'
 import { useNotificationDispatch } from '../reducers/NotificationContext'
 import { useUserDispatch, useUserValue } from '../reducers/UserContent'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { BottomNavigation, BottomNavigationAction, Box } from '@mui/material'
 import LogoutIcon from '@mui/icons-material/Logout'
 import ContactPageIcon from '@mui/icons-material/ContactPage'
@@ -12,6 +12,7 @@ const Header = () => {
   const user = useUserValue()
   const userDispatch = useUserDispatch()
   const dispatch = useNotificationDispatch()
+  const navigate = useNavigate()
 
   const handleLogout = event => {
     event.preventDefault()
@@ -21,6 +22,7 @@ const Header = () => {
       type: 'message',
       payload: 'User logged out',
     })
+    navigate('/')
   }
 
   const styles = {
