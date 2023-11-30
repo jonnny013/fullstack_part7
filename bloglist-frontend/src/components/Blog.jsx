@@ -92,7 +92,6 @@ const Blog = () => {
       })
     },
     onSuccess: newComment => {
-      console.log(newComment)
       dispatch({
         type: 'message',
         payload: `New comment added: ${newComment.content}`,
@@ -111,7 +110,7 @@ const Blog = () => {
       })
     },
   })
-  console.log(blogs)
+
   const onCommentSubmit = async (event) => {
     event.preventDefault()
     const newComment = {

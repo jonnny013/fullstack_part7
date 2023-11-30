@@ -3,7 +3,13 @@ import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useUserDispatch, useUserValue } from './reducers/UserContent'
 import { Container } from '@mui/material'
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+} from 'react-router-dom'
 import './app.css'
 import checkTokenExpiration from './services/tokenCheck'
 import Blogs from './components/Blogs'
@@ -17,6 +23,7 @@ import UsersView from './components/UsersView'
 import Footer from './components/Footer'
 import Blog from './components/Blog'
 import { useBlogsDispatch } from './reducers/BlogsContext'
+import NewUser from './components/NewUser'
 
 const App = () => {
   const dipsatch = useUserDispatch()
@@ -45,28 +52,32 @@ const App = () => {
     blogDispatch({ type: 'blogs', payload: blogs })
   }, [blogs])
 
-  if (!user) {
-    return (
-      <>
-        <div className='login-div'>
-          <Login />
-        </div>
-        <Footer />
-      </>
-    )
-  }
-
   return (
     <Router>
       <Container>
-        <Header />
-        <Notification />
+        {user && (
+          <>
+            <Header />
+            <Notification />
+          </>
+        )}
         <Routes>
-          <Route path='/' element={<Blogs />} />
-          <Route path='/users' element={<UsersView />} />
-          <Route path='/users/:id' element={<SingleUserView  />}/>
-          <Route path='/login' element={<Login />} />
-          <Route path='/blogs/:id' element={<Blog />} />
+          {!user ? (
+            <>
+              <Route path='/' element={<Login />} />
+              <Route path='/newuser' element={<NewUser />} />
+              <Route path='/login' element={<Login />} />
+            </>
+          ) : (
+            <>
+              <Route path='/' element={<Blogs />} />
+              <Route path='/users' element={<UsersView />} />
+              <Route path='/users/:id' element={<SingleUserView />} />
+              <Route path='/blogs/:id' element={<Blog />} />
+              <Route path='/login' element={<Login loggedIn={user} />} />
+              <Route path='/newuser' element={<NewUser loggedIn={user} />} />
+            </>
+          )}
         </Routes>
         <Footer />
       </Container>

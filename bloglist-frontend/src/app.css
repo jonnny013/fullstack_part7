@@ -23,6 +23,7 @@ h1 {
   height: 400px;
   margin: auto;
   background-color: rgb(2, 175, 175);
+  overflow: scroll;
 }
 
 .login-paragraph,
