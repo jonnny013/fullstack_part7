@@ -14,6 +14,7 @@ const Notification = () => {
     marginBottom: 10,
     textAlign: 'center',
     height: 25,
+    overflow: 'scroll',
   }
 
   const style2 = {
@@ -26,6 +27,7 @@ const Notification = () => {
     marginBottom: 10,
     textAlign: 'center',
     height: 25,
+    overflow: 'scroll',
   }
 
   const style3 = {
@@ -38,6 +40,7 @@ const Notification = () => {
     marginBottom: 10,
     textAlign: 'center',
     height: 25,
+    overflow: 'scroll',
   }
   const style4 = {
     color: 'blue',
@@ -47,6 +50,7 @@ const Notification = () => {
     marginBottom: 10,
     textAlign: 'center',
     height: 29,
+    overflow: 'scroll',
   }
   useEffect(() => {
     if (notification.message !== '') {
@@ -54,7 +58,7 @@ const Notification = () => {
         dispatch({
           type: 'reset',
         })
-      }, 6000)
+      }, 10000)
       return () => clearTimeout(timeOut)
     }
   }, [notification.message, dispatch])
