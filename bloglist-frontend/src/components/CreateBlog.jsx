@@ -60,13 +60,13 @@ const CreateBlog = ({  createBlogRef }) => {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgb(2, 175, 175)',
-    width: 400,
+    width: 370,
     borderRadius: 5,
     marginTop: 10
   }
 
   return (
-    <div style={stylesDiv}>
+    <div style={stylesDiv} id="createBlogDiv">
       <h2 className='createBlogTitle'>Create New Blog</h2>
       <form onSubmit={makeBlog} style={stylesDiv}>
 

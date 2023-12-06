@@ -13,7 +13,6 @@ const Togglable = forwardRef((props, refs) => {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 400,
     margin: 'auto'
   }
   const button = {

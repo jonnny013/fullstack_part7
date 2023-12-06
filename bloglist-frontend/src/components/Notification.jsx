@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNotificationDispatch, useNotificationValue } from '../reducers/NotificationContext'
 
 const Notification = () => {
@@ -48,14 +48,17 @@ const Notification = () => {
     textAlign: 'center',
     height: 29,
   }
+  useEffect(() => {
+    if (notification.message !== '') {
+      const timeOut = setTimeout(() => {
+        dispatch({
+          type: 'reset',
+        })
+      }, 6000)
+      return () => clearTimeout(timeOut)
+    }
+  }, [notification.message, dispatch])
 
-  if (notification.message !== '') {
-    setTimeout(() => {
-      dispatch({
-        type: 'reset'
-      })
-    }, 6000)
-  }
 
   const selection = () => {
     if (notification.style === 'loading') {
