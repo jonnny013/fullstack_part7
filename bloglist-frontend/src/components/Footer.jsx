@@ -37,14 +37,12 @@ const Footer = () => {
         <BottomNavigationAction
           label='My Portfolio'
           icon={<WebIcon />}
-          onClick={() => onClick('https://jonnny013.github.io')}
+          onClick={() => onClick('https://jon-love-portfolio.fly.dev')}
         />
         <BottomNavigationAction
           label='Source Code'
           icon={<GitHubIcon />}
-          onClick={() =>
-            onClick('https://github.com/jonnny013/fullstack_part7')
-          }
+          onClick={() => onClick('https://github.com/jonnny013/fullstack_part7')}
         />
       </BottomNavigation>
     </Box>
