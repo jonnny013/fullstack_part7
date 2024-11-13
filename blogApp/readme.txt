@@ -1,1 +1,1 @@
-https://jonnny013bloglist.fly.dev/
+https://jonnny013bloglist.fly.dev/git p
