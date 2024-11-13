@@ -3,13 +3,7 @@ import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useUserDispatch, useUserValue } from './reducers/UserContent'
 import { Container } from '@mui/material'
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  useNavigate,
-} from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './app.css'
 import checkTokenExpiration from './services/tokenCheck'
 import Blogs from './components/Blogs'
@@ -26,7 +20,7 @@ import { useBlogsDispatch } from './reducers/BlogsContext'
 import NewUser from './components/NewUser'
 
 const App = () => {
-  const dipsatch = useUserDispatch()
+  const dispatch = useUserDispatch()
   const user = useUserValue()
   const blogDispatch = useBlogsDispatch()
 
@@ -34,7 +28,7 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      dipsatch({ type: 'user', payload: user })
+      dispatch({ type: 'user', payload: user })
       blogService.setToken(user.token)
       commentService.setToken(user.token)
     }
@@ -54,31 +48,33 @@ const App = () => {
 
   return (
     <Router>
-      <Container>
+      <Container style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         {user && (
           <>
             <Header />
             <Notification />
           </>
         )}
-        <Routes>
-          {!user ? (
-            <>
-              <Route path='/' element={<Login />} />
-              <Route path='/newuser' element={<NewUser />} />
-              <Route path='/login' element={<Login />} />
-            </>
-          ) : (
-            <>
-              <Route path='/' element={<Blogs />} />
-              <Route path='/users' element={<UsersView />} />
-              <Route path='/users/:id' element={<SingleUserView />} />
-              <Route path='/blogs/:id' element={<Blog />} />
-              <Route path='/login' element={<Login />} />
-              <Route path='/newuser' element={<NewUser />} />
-            </>
-          )}
-        </Routes>
+        <div style={{ flex: 1 }}>
+          <Routes>
+            {!user ? (
+              <>
+                <Route path='/' element={<Login />} />
+                <Route path='/newuser' element={<NewUser />} />
+                <Route path='/login' element={<Login />} />
+              </>
+            ) : (
+              <>
+                <Route path='/' element={<Blogs />} />
+                <Route path='/users' element={<UsersView />} />
+                <Route path='/users/:id' element={<SingleUserView />} />
+                <Route path='/blogs/:id' element={<Blog />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/newuser' element={<NewUser />} />
+              </>
+            )}
+          </Routes>
+        </div>
         <Footer />
       </Container>
     </Router>

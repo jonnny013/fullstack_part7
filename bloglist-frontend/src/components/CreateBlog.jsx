@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNotificationDispatch } from '../reducers/NotificationContext'
 import { useUserValue } from '../reducers/UserContent'
 
-const CreateBlog = ({  createBlogRef }) => {
+const CreateBlog = ({ createBlogRef }) => {
   const user = useUserValue()
   const queryClient = useQueryClient()
   const dispatch = useNotificationDispatch()
@@ -28,7 +28,7 @@ const CreateBlog = ({  createBlogRef }) => {
     onError: error => {
       dispatch({
         type: 'error',
-        payload: `Post unsuccesful: ${error.response.data.error}`,
+        payload: `Post unsuccessful: ${error.response.data.error}`,
       })
     },
   })
@@ -37,17 +37,16 @@ const CreateBlog = ({  createBlogRef }) => {
   const [url, setUrl] = useState('')
 
   const handleCreateBlog = async blogObject => {
-    newBlogMutation.mutate(blogObject )
+    newBlogMutation.mutate(blogObject)
     createBlogRef.current.toggleVisibility()
-
   }
 
-  const makeBlog = (event) => {
+  const makeBlog = event => {
     event.preventDefault()
     const blogObject = {
       title: title,
       author: author,
-      url: url
+      url: url,
     }
     handleCreateBlog(blogObject)
     setAuthor('')
@@ -62,28 +61,49 @@ const CreateBlog = ({  createBlogRef }) => {
     backgroundColor: 'rgb(2, 175, 175)',
     width: 370,
     borderRadius: 5,
-    marginTop: 10
+    marginTop: 10,
   }
 
   return (
-    <div style={stylesDiv} id="createBlogDiv">
+    <div style={stylesDiv} id='createBlogDiv'>
       <h2 className='createBlogTitle'>Create New Blog</h2>
       <form onSubmit={makeBlog} style={stylesDiv}>
-
         <p className='newBlogParagraph'>Title</p>
-        <input type='text' id='title-input' value={title} name='Title' placeholder='Choose a title' onChange={({ target }) => setTitle(target.value)} />
+        <input
+          type='text'
+          id='title-input'
+          value={title}
+          name='Title'
+          placeholder='Choose a title'
+          onChange={({ target }) => setTitle(target.value)}
+        />
 
         <p className='newBlogParagraph'>Author</p>
-        <input type='text' id='author-input' value={author} name='Author' placeholder="Author's name" onChange={({ target }) => setAuthor(target.value)} />
+        <input
+          type='text'
+          id='author-input'
+          value={author}
+          name='Author'
+          placeholder="Author's name"
+          onChange={({ target }) => setAuthor(target.value)}
+        />
 
         <p className='newBlogParagraph'>Website</p>
-        <input type='text'  id='url-input' value={url} name='Url'  placeholder='Add a Url to see the whole blog' onChange={({ target }) => setUrl(target.value)} />
+        <input
+          type='text'
+          id='url-input'
+          value={url}
+          name='Url'
+          placeholder='Add a Url to see the whole blog'
+          onChange={({ target }) => setUrl(target.value)}
+        />
         <br />
-        <button type='submit' id='create-button'>Create</button>
+        <button type='submit' id='create-button'>
+          Create
+        </button>
       </form>
     </div>
   )
 }
-
 
 export default CreateBlog

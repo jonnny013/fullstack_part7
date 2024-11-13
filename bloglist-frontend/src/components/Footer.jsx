@@ -17,9 +17,9 @@ const Footer = () => {
         showLabels
         sx={{
           bgcolor: 'transparent',
-          height: 50,
-          marginTop: 5,
+          height: 'fit-content',
           alignItems: 'center',
+          padding: 2,
           '& .MuiBottomNavigationAction-root, .Mui-selected, svg': {
             color: '#007A78',
             fontSize: 25,
